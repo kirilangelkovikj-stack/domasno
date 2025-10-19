@@ -1,0 +1,390 @@
+//zadaca 1
+/*
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int val;
+    Node* next;
+    Node(int val) : val(val), next(NULL) {}
+};
+
+struct List
+{
+    Node* head;
+    List() { head = NULL; }
+
+    void Insert(int val1)
+    {
+        Node* newNode = new Node(val1);
+
+        if (!head || val1 < head->val) {
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+
+        Node* curr = head;
+        while (curr->next && curr->next->val < val1)
+            curr = curr->next;
+
+        newNode->next = curr->next;
+        curr->next = newNode;
+    }
+
+    void print()
+    {
+        Node* tmp = head;
+        while (tmp) {
+            cout << tmp->val << " ";
+            tmp = tmp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    List l;
+    int element;
+
+    for (int i = 0; i < n; i++) {
+        cin >> element;
+        l.Insert(element);
+        l.print();
+    }
+
+    return 0;
+}
+*/
+
+/*
+//zadaca 2
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *next;
+};
+
+struct List {
+    Node *start = nullptr;
+};
+
+void add(List &L, int x) {
+    Node *n = new Node{x, L.start};
+    L.start = n;
+}
+
+int main() {
+    List a, b;
+    int n, m, x;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        add(a, x);
+    }
+
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        cin >> x;
+        add(b, x);
+    }
+
+    vector<int> v;
+    for (Node *t = a.start; t; t = t->next) v.push_back(t->val);
+    for (Node *t = b.start; t; t = t->next) v.push_back(t->val);
+
+    sort(v.begin(), v.end());
+    v.erase(unique(v.begin(), v.end()), v.end());
+
+    List c;
+    for (int i = (int)v.size() - 1; i >= 0; i--) add(c, v[i]);
+
+    for (Node *t = c.start; t; t = t->next)
+        cout << t->val << " ";
+    cout << endl;
+
+    return 0;
+}
+*/
+
+//zadaca 3
+/*
+//bubblesort
+#include <bits/stdc++.h>
+using namespace std;
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *next;
+};
+
+struct List {
+    Node *start = nullptr;
+};
+
+void add(List &L, int x) {
+    Node *nov = new Node{x, nullptr};
+    if (!L.start) L.start = nov;
+    else {
+        Node *t = L.start;
+        while (t->next) t = t->next;
+        t->next = nov;
+    }
+}
+void bubbleSort(List &L) {
+    if (!L.start) return;
+    bool swapped;
+    do {
+        swapped = false;
+        Node *t = L.start;
+        while (t->next) {
+            if (t->val > t->next->val) {
+                swap(t->val, t->next->val);
+                swapped = true;
+            }
+            t = t->next;
+        }
+    } while (swapped);
+}
+
+
+void print(List L) {
+    for (Node *t = L.start; t; t = t->next)
+        cout << t->val << " ";
+    cout << endl;
+}
+
+
+
+int main() {
+    List L;
+    int n, x;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        add(L, x);
+    }
+
+    bubbleSort(L);
+    print(L);
+    return 0;
+}
+*/
+
+/*
+//selection sort
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *next;
+};
+
+struct List {
+    Node *start = nullptr;
+};
+
+void add(List &L, int x) {
+    Node *nov = new Node{x, nullptr};
+    if (!L.start) L.start = nov;
+    else {
+        Node *t = L.start;
+        while (t->next) t = t->next;
+        t->next = nov;
+    }
+}
+    void selectionSort(List &L) {
+    for (Node *i = L.start; i && i->next; i = i->next) {
+        Node *min = i;
+        for (Node *j = i->next; j; j = j->next)
+            if (j->val < min->val) min = j;
+        swap(i->val, min->val);
+    }
+}
+
+void print(List L) {
+    for (Node *t = L.start; t; t = t->next)
+        cout << t->val << " ";
+    cout << endl;
+}
+
+int main() {
+    List L;
+    int n, x;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        add(L, x);
+    }
+
+    selectionSort(L);
+    print(L);
+    return 0;
+}
+*/
+
+//insertion sort
+/*
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *next;
+};
+
+struct List {
+    Node *start = nullptr;
+};
+
+void add(List &L, int x) {
+    Node *nov = new Node{x, nullptr};
+    if (!L.start) L.start = nov;
+    else {
+        Node *t = L.start;
+        while (t->next) t = t->next;
+        t->next = nov;
+    }
+}
+
+void insertionSort(List &L) {
+    Node *sorted = nullptr;
+
+    while (L.start) {
+        Node *x = L.start;
+        L.start = L.start->next;
+
+        if (!sorted || x->val < sorted->val) {
+            x->next = sorted;
+            sorted = x;
+        } else {
+            Node *t = sorted;
+            while (t->next && t->next->val < x->val)
+                t = t->next;
+            x->next = t->next;
+            t->next = x;
+        }
+    }
+    L.start = sorted;
+}
+
+    void print(List L) {
+    for (Node *t = L.start; t; t = t->next)
+        cout << t->val << " ";
+    cout << endl;
+}
+int main() {
+    List L;
+    int n, x;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        add(L, x);
+    }
+
+    insertionSort(L);
+    print(L);
+    return 0;
+}
+*/
+
+/*
+//zadaca 4
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *prev;
+    Node *next;
+};
+
+struct DoublyList {
+    Node *head = nullptr;
+    Node *tail = nullptr;
+};
+
+void add(DoublyList &L, int x) {
+    Node *n = new Node{x, L.tail, nullptr};
+    if (!L.head) {
+        L.head = L.tail = n;
+    } else {
+        L.tail->next = n;
+        L.tail = n;
+    }
+}
+
+void remove(DoublyList &L, int x) {
+    Node *t = L.head;
+    while (t) {
+        if (t->val == x) {
+            if (t->prev) t->prev->next = t->next;
+            else L.head = t->next;
+            if (t->next) t->next->prev = t->prev;
+            else L.tail = t->prev;
+            delete t;
+            return;
+        }
+        t = t->next;
+    }
+}
+
+Node* search(DoublyList &L, int x) {
+    Node *t = L.head;
+    while (t) {
+        if (t->val == x) return t;
+        t = t->next;
+    }
+    return nullptr;
+}
+
+void printForward(DoublyList &L) {
+    for (Node *t = L.head; t; t = t->next)
+        cout << t->val << " ";
+    cout << endl;
+}
+
+void printBackward(DoublyList &L) {
+    for (Node *t = L.tail; t; t = t->prev)
+        cout << t->val << " ";
+    cout << endl;
+}
+
+int main() {
+    DoublyList L;
+
+    add(L, 5);
+    add(L, 2);
+    add(L, 9);
+    add(L, 7);
+
+    printForward(L);
+    printBackward(L);
+
+    cout << "Brishenje 9\n";
+    remove(L, 9);
+
+    printForward(L);
+
+    Node *found = search(L, 7);
+    if (found) cout << "Najden Node so vrednost 7"<<endl;
+    else cout << "Ne e najden Node so vrednost 7"<<endl;
+
+    return 0;
+}
+*/
